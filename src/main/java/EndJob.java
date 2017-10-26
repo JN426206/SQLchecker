@@ -1,12 +1,7 @@
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import java.sql.Time;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class EndJob implements org.quartz.Job {
     public EndJob(){
@@ -21,28 +16,6 @@ public class EndJob implements org.quartz.Job {
 //        return !candidate.isBefore(start) && !candidate.isAfter(end);  // Inclusive.
 //    }
 
-    private Boolean isBetween(Date candidate, Date start, Date end){
-        try {
-            SimpleDateFormat parser = new SimpleDateFormat("HH:mm:ss");
-            candidate = parser.parse(parser.format(candidate));
-            start = parser.parse(parser.format(start));
-            end = parser.parse(parser.format(end));
-
-            return candidate.after(start) && candidate.before(end);
-
-        }
-        catch (ParseException a){
-            return false;
-        }
-    }
-
-    private Integer toMinutes(Date date){
-        SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
-        String[] splited = parser.format(date).split(":");
-        Integer hh = Integer.parseInt(splited[0]);
-        Integer mm = Integer.parseInt(splited[1]);
-        return mm+hh*60;
-    }
 
     public void execute(JobExecutionContext context) throws JobExecutionException{
 
@@ -58,20 +31,24 @@ public class EndJob implements org.quartz.Job {
 //        String przerwa5 = "16:45-17:00";
 //        String lekcja6 = "17:00-18:30";
 
-        List<Date> lekcje = new ArrayList<Date>();
+
+
         Date dNow = new Date();
-        SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
+        //SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
+        MyModules myModules = new MyModules();
+        String msgLeftTime=myModules.timeToTheEndString(dNow);
+        if(msgLeftTime.length()>0) System.out.println(msgLeftTime);
 
-        try{
-            Date lekcja1 = parser.parse("17:49");
-            Date lekcja6 = parser.parse("17:50");
-            Date nowTime = parser.parse(parser.format(dNow));
 
-            System.out.println(toMinutes(dNow));
-            System.out.println(toMinutes(lekcja6));
-            System.out.println(toMinutes(lekcja6)-toMinutes(dNow));
-            System.out.println(isBetween(dNow,lekcja1,lekcja6));
-        } catch (ParseException a){}
+
+//            Date lekcja1 = parser.parse("17:49");
+//            Date lekcja6 = parser.parse("17:50");
+//            Date nowTime = parser.parse(parser.format(dNow));
+//
+//            System.out.println(toMinutes(dNow));
+//            System.out.println(toMinutes(lekcja6));
+//            System.out.println(toMinutes(lekcja6)-toMinutes(dNow));
+//            System.out.println(isBetween(dNow,lekcja1,lekcja6));
 
     }
 }

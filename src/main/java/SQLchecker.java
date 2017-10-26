@@ -79,7 +79,7 @@ public class SQLchecker {
 
             CronTrigger endJobTrigger = newTrigger()
                     .withIdentity("endJobTrigger","group1")
-                    .withSchedule(cronSchedule("0/5 * 8-18 ? * MON-FRI"))
+                    .withSchedule(cronSchedule("0 0/1 8-18 ? * MON-FRI"))
                     .build();
 
             scheduler.scheduleJob(saveJob,saveJobTrigger);
