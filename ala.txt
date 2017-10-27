@@ -1,4 +1,0 @@
-1 select * from
-2 select * from asd
-3 select * from kul
-4 select * from asd

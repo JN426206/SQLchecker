@@ -4,6 +4,8 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.impl.StdSchedulerFactory;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -77,9 +79,18 @@ public class SQLchecker {
                     .withSchedule(cronSchedule("0/30 * * * * ?"))
                     .build();
 
+            Date dNow = new Date();
+            String startDateStr = new SimpleDateFormat("yyyy-MM-dd").format(dNow);
+            Date startDate = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(startDateStr+" 8:15");
+            Date endDate = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(startDateStr+" 18:45");
+            System.out.println(startDate);
+            System.out.println(endDate);
+
             CronTrigger endJobTrigger = newTrigger()
                     .withIdentity("endJobTrigger","group1")
-                    .withSchedule(cronSchedule("0 0/1 8-18 ? * MON-FRI"))
+                    .startAt(startDate)
+                    .withSchedule(cronSchedule("0 * 8-18 ? * MON-FRI"))
+                    .endAt(endDate)
                     .build();
 
             scheduler.scheduleJob(saveJob,saveJobTrigger);
@@ -98,21 +109,26 @@ public class SQLchecker {
                 System.out.println("Wpisz numer zapytania");
                 wpisane = odczyt.nextLine();
                 if (wpisane.equals("!q")) break;
-                nrZapytania = Integer.parseInt(wpisane);
+                try {
+                    nrZapytania = Integer.parseInt(wpisane);
 
-                System.out.println("Wpisz treść zapytania " + nrZapytania.toString());
-                wpisane = odczyt.nextLine();
-                if (wpisane.equals("!q")) break;
-                zapytanie = wpisane;
+                    System.out.println("Wpisz treść zapytania " + nrZapytania.toString());
+                    wpisane = odczyt.nextLine();
+                    if (wpisane.equals("!q")) break;
+                    zapytanie = wpisane;
 
-                String wynikQuery = checkQuery(zapytanie);
-                if (wynikQuery.length() > 0) {
-                    System.out.println(checkQuery(zapytanie));
-                    System.out.println("Nie dodano zapytania !");
-                }
-                else {
-                    updateaddToMyQueryList(new MyQuery(nrZapytania, zapytanie));
-                    System.out.println("Pomyśłnie dodano zapytanie nr " + nrZapytania.toString());
+                    String wynikQuery = checkQuery(zapytanie);
+                    if (wynikQuery.length() > 0) {
+                        System.out.println(checkQuery(zapytanie));
+                        System.out.println("Nie dodano zapytania !");
+                    }
+                    else {
+                        updateaddToMyQueryList(new MyQuery(nrZapytania, zapytanie));
+                        System.out.println("Pomyśłnie dodano zapytanie nr " + nrZapytania.toString());
+                    }
+
+                } catch (NumberFormatException e){
+                    System.out.println("Proszę wpisać liczbę!");
                 }
             }
 
@@ -131,6 +147,8 @@ public class SQLchecker {
 
         } catch (SchedulerException se){
             se.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
 
     }
