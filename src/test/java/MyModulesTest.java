@@ -1,3 +1,4 @@
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,7 +26,9 @@ public class MyModulesTest {
             logger.info("Lesson at 8:15");
             SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
             Date candidate = parser.parse("8:15");
-            logger.info("Msg from myModules: "+myModules.timeToTheEndString(candidate));
+            Integer result = myModules.timeToTheEnd(candidate);
+            logger.info(result.toString());
+            Assert.assertEquals(90,result.intValue());
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -37,7 +40,9 @@ public class MyModulesTest {
             logger.info("Lesson at 16:44:59");
             SimpleDateFormat parser = new SimpleDateFormat("HH:mm:ss");
             Date candidate = parser.parse("16:44:59");
-            logger.info("Msg from myModules: "+myModules.timeToTheEndString(candidate));
+            Integer result = myModules.timeToTheEnd(candidate);
+            logger.info(result.toString());
+            Assert.assertEquals(1,result.intValue());
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -49,7 +54,9 @@ public class MyModulesTest {
             logger.info("Break at 13:15");
             SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
             Date candidate = parser.parse("13:15");
-            logger.info("Msg from myModules: "+myModules.timeToTheEndString(candidate));
+            Integer result = myModules.timeToTheEnd(candidate);
+            logger.info(result.toString());
+            Assert.assertEquals(30,result.intValue());
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -61,7 +68,9 @@ public class MyModulesTest {
             logger.info("Break at 16:59:59");
             SimpleDateFormat parser = new SimpleDateFormat("HH:mm:ss");
             Date candidate = parser.parse("16:59:59");
-            logger.info("Msg from myModules: "+myModules.timeToTheEndString(candidate));
+            Integer result = myModules.timeToTheEnd(candidate);
+            logger.info(result.toString());
+            Assert.assertEquals(1,result.intValue());
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -73,7 +82,9 @@ public class MyModulesTest {
             logger.info("Lesson at 9:00");
             SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
             Date candidate = parser.parse("9:00");
-            logger.info("Msg from myModules: "+myModules.timeToTheEndString(candidate));
+            Integer result = myModules.timeToTheEnd(candidate);
+            logger.info(result.toString());
+            Assert.assertEquals(45,result.intValue());
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -85,7 +96,10 @@ public class MyModulesTest {
             logger.info("Break at 13:25");
             SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
             Date candidate = parser.parse("13:25");
-            logger.info("Msg from myModules: "+myModules.timeToTheEndString(candidate));
+            String moduleName="";
+            Integer result = myModules.timeToTheEnd(candidate);
+            logger.info(result.toString()+moduleName);
+            Assert.assertEquals(20,result.intValue());
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -97,7 +111,9 @@ public class MyModulesTest {
             logger.info("AfterTime 20:25");
             SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
             Date candidate = parser.parse("20:25");
-            logger.info("Msg from myModules: "+myModules.timeToTheEndString(candidate));
+            Integer result = myModules.timeToTheEnd(candidate);
+            logger.info(result.toString());
+            Assert.assertEquals(-1,result.intValue());
         } catch (ParseException e) {
             e.printStackTrace();
         }

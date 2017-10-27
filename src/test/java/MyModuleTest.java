@@ -1,3 +1,4 @@
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,7 +25,9 @@ public class MyModuleTest {
             logger.info("Lesson at 9:00");
             SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
             Date candidate = parser.parse("9:00");
-            logger.info("Left minutes to the end: "+myModule.toTheEnd(candidate).toString());
+            String result = myModule.toTheEnd(candidate).toString();
+            logger.info("Left minutes to the end: "+result);
+            Assert.assertEquals("45",result);
         } catch (ParseException e) {
             e.printStackTrace();
         }

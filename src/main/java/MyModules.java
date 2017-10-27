@@ -31,6 +31,17 @@ public class MyModules {
         this.myModuleList = myModuleList;
     }
 
+    public Integer timeToTheEnd(Date dNow){
+        Integer left=-1;
+        for(MyModule myModule:this.myModuleList){
+            Integer minutesLeft=myModule.toTheEnd(dNow);
+            if(minutesLeft!=-1){
+                left=minutesLeft;
+            }
+        }
+        return left;
+    }
+
     public String timeToTheEndString(Date dNow){
         String left="";
         for(MyModule myModule:this.myModuleList){
